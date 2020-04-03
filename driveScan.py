@@ -15,12 +15,7 @@ from email.mime.text import MIMEText
 
 import config
 
-f = open('listaEmails.txt', 'r')
-x = f.readlines()
-listaEmails = ",".join(x)
-
-print("Loaded emails: ")
-print(listaEmails)
+print("Loaded emails: AT SEND TIME")
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly']
@@ -55,13 +50,12 @@ def main():
     service = build('drive', 'v3', credentials=creds)
     nService = service
     scanForFiles()
-    
-
-# colparroquialjuan23@gmail.com
  
 def sendEmails(trabajosPracticos):
-    global listaEmails
-    mail_content = "Hay nuevos trabajos practicos: "
+    f = open('listaEmails.txt', 'r')
+    x = f.readlines()
+    listaEmails = ",".join(x)
+    mail_content = config.mail_content
     mail_content = mail_content + trabajosPracticos
     #The mail addresses and password
     sender_address = config.my_email
@@ -71,7 +65,7 @@ def sendEmails(trabajosPracticos):
     message = MIMEMultipart()
     message['From'] = sender_address
     message['To'] = receiver_address
-    message['Subject'] = 'Hay nuevos trabajos practicos en drive'   #The subject line
+    message['Subject'] = config.subject   #The subject line
     #The body and the attachments for the mail
     message.attach(MIMEText(mail_content, 'plain'))
     #Create SMTP session for sending the mail
@@ -81,7 +75,7 @@ def sendEmails(trabajosPracticos):
     text = message.as_string()
     session.sendmail(sender_address, receiver_address, text)
     session.quit()
-    print('Emails enviados correctamente a: ')
+    print('Emails correctly sended to: ')
     print(listaEmails)
 
 def scanForFiles():
@@ -93,10 +87,10 @@ def scanForFiles():
     #TEST ONLY results = nService.files().list(q="modifiedTime>= '{}'".format(date.isoformat())).execute()
     items = results.get('files', [])
     if not items:
-        print("No hubo trabajos nuevos")
+        print("There were no new files")
     else:
         date = datetime.utcnow()
-        print("Hubo trabajos nuevos: ")
+        print("There were new files: ")
         for tp in items:
             print(tp['name'])
             listaTPS = listaTPS + "\r\n" + tp['name'] + ": https://drive.google.com/file/d/" + tp['id'] + "/view \r\n"
