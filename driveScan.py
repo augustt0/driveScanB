@@ -15,6 +15,7 @@ from email.mime.text import MIMEText
 
 import config
 
+print("DRIVESCAN V0.0.3 \n AUTHOR: AUGUSTO CABRERA \n BigEagle")
 print("Loaded emails: AT SEND TIME")
 
 # If modifying these scopes, delete the file token.pickle.
@@ -82,7 +83,7 @@ def scanForFiles():
     global date
     listaTPS = ""
     threading.Timer(10.0, scanForFiles).start()
-    print("Checkeando archivos creados despues de: {}".format(date.isoformat()))
+    print("Looking for files uploaded after: {}".format(date.isoformat()))
     results = nService.files().list(q="modifiedTime>= '{}' and '{}' in parents".format(date.isoformat(), config.folder_id)).execute()
     #TEST ONLY results = nService.files().list(q="modifiedTime>= '{}'".format(date.isoformat())).execute()
     items = results.get('files', [])
