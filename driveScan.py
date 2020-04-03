@@ -15,8 +15,9 @@ from email.mime.text import MIMEText
 
 import config
 
-print("DRIVESCAN V0.0.3 \n AUTHOR: AUGUSTO CABRERA \n BigEagle")
+print("DRIVESCAN V0.0.4 \n AUTHOR: AUGUSTO CABRERA \n BigEagle")
 print("Loaded emails: AT SEND TIME")
+print("User email: {}".format(config.my_email))
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/drive.metadata.readonly']
@@ -54,6 +55,7 @@ def main():
  
 def sendEmails(trabajosPracticos):
     f = open('listaEmails.txt', 'r')
+    f = None
     x = f.readlines()
     listaEmails = ",".join(x)
     mail_content = config.mail_content
