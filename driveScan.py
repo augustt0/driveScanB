@@ -55,7 +55,6 @@ def main():
  
 def sendEmails(trabajosPracticos):
     f = open('listaEmails.txt', 'r')
-    f = None
     x = f.readlines()
     listaEmails = ",".join(x)
     mail_content = config.mail_content
